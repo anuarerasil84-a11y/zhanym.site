@@ -1,0 +1,614 @@
+```html
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кешіріңіз ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #090014;
+    color: white;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, #ffffff 0 1px, transparent 2px),
+        radial-gradient(circle at 80% 30%, #ffffff 0 1px, transparent 2px),
+        radial-gradient(circle at 40% 70%, #ffffff 0 1px, transparent 2px),
+        radial-gradient(circle at 70% 80%, #ffffff 0 1px, transparent 2px),
+        radial-gradient(circle at 10% 90%, #ffffff 0 1px, transparent 2px);
+    background-size: 180px 180px;
+    opacity: .5;
+    animation: moveStars 15s linear infinite;
+}
+
+@keyframes moveStars {
+    from { transform: translateY(0); }
+    to { transform: translateY(-180px); }
+}
+
+.screen {
+    display: none;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+}
+
+.screen.active {
+    display: flex;
+}
+
+.card {
+    width: min(500px, 95%);
+    padding: 45px 30px;
+    border-radius: 30px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 50px rgba(190, 50, 255, .25);
+}
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #ff65c3, #b56cff);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+p {
+    color: #ddd;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+button {
+    margin-top: 30px;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 17px;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, #ff3cac, #784ba0);
+    box-shadow: 0 0 25px rgba(255,60,172,.35);
+    transition: .3s;
+}
+
+button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 35px rgba(255,60,172,.6);
+}
+
+.envelope {
+    width: 260px;
+    height: 180px;
+    margin: 30px auto;
+    position: relative;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.envelope:hover {
+    transform: scale(1.05);
+}
+
+.env-body {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 140px;
+    background: linear-gradient(135deg, #ff4da6, #8e44ad);
+    border-radius: 0 0 15px 15px;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-top: 90px solid #d83b8d;
+    z-index: 3;
+    transition: .7s;
+    transform-origin: top;
+}
+
+.heart {
+    position: absolute;
+    left: 50%;
+    top: 65px;
+    transform: translateX(-50%);
+    font-size: 45px;
+    z-index: 4;
+    animation: heartbeat 1.2s infinite;
+}
+
+@keyframes heartbeat {
+    0%,100% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.2); }
+}
+
+.message-box {
+    min-height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sorryText {
+    font-size: 26px;
+    color: #ffb4df;
+    transition: .4s;
+}
+
+.progress {
+    margin-top: 20px;
+    color: #aaa;
+}
+
+.big-heart {
+    font-size: 110px;
+    animation: heartBeat 1s infinite;
+    filter: drop-shadow(0 0 25px #ff3cac);
+}
+
+@keyframes heartBeat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+#thinkBtn {
+    background: #333;
+    box-shadow: none;
+}
+
+.floating-heart {
+    position: fixed;
+    bottom: -50px;
+    font-size: 25px;
+    animation: floatUp 4s linear forwards;
+    z-index: 10;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@media(max-width: 600px) {
+    h1 {
+        font-size: 32px;
+    }
+
+    .card {
+        padding: 35px 20px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .envelope {
+        transform: scale(.85);
+    }
+
+    #sorryText {
+        font-size: 21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<!-- 1-БӨЛІМ -->
+<section class="screen active" id="screen1">
+    <div class="card">
+
+        <div style="font-size:70px;">🌙</div>
+
+        <h1>Сізге айтарым бар...</h1>
+
+        <p>
+            Бұл жай ғана сайт емес.<br>
+            Сізге айтқым келген сөздер бар.
+        </p>
+
+        <button onclick="nextScreen(2)">
+            Бастау ✨
+        </button>
+
+    </div>
+</section>
+
+
+<!-- 2-БӨЛІМ -->
+<section class="screen" id="screen2">
+    <div class="card">
+
+        <h1>Сізге арналған хат 💌</h1>
+
+        <p>
+            Конвертті басып көріңіз...
+        </p>
+
+        <div class="envelope" onclick="openEnvelope()">
+
+            <div class="env-body"></div>
+
+            <div class="flap" id="flap"></div>
+
+            <div class="heart">❤️</div>
+
+        </div>
+
+        <p id="openText">
+            Бір рет басыңыз ❤️
+        </p>
+
+    </div>
+</section>
+
+
+<!-- 3-БӨЛІМ -->
+<section class="screen" id="screen3">
+    <div class="card">
+
+        <div style="font-size:55px;">🥺</div>
+
+        <h1>Кешіріңіз...</h1>
+
+        <div class="message-box">
+
+            <div id="sorryText">
+                Менің айтарым көп...
+            </div>
+
+        </div>
+
+        <div class="progress" id="progress">
+            0 / 15
+        </div>
+
+        <button onclick="nextSorry()">
+            Келесі сөз ❤️
+        </button>
+
+    </div>
+</section>
+
+
+<!-- 4-БӨЛІМ -->
+<section class="screen" id="screen4">
+    <div class="card">
+
+        <div class="big-heart">❤️</div>
+
+        <h1>Мені кешіресіз бе?</h1>
+
+        <p>
+            Мен Сізді ренжіткім келген жоқ.<br>
+            Егер қателессем — шын жүрегіммен кешірім сұраймын.
+        </p>
+
+        <div class="buttons">
+
+            <button onclick="forgive()">
+                ❤️ Иә, кешірдім
+            </button>
+
+            <button id="thinkBtn" onclick="think()">
+                🥺 Әлі ойланамын
+            </button>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- 5-БӨЛІМ -->
+<section class="screen" id="screen5">
+    <div class="card">
+
+        <div class="big-heart">💖</div>
+
+        <h1>Рақмет! ❤️</h1>
+
+        <p>
+            Сіздің кешіргеніңіз мен үшін өте маңызды.
+        </p>
+
+        <p style="margin-top:20px;">
+            Енді Сізді ренжітпеуге тырысамын.
+            <br>
+            Барлығы жақсы болады. ✨
+        </p>
+
+        <button onclick="restart()">
+            Қайта көру 🔄
+        </button>
+
+    </div>
+</section>
+
+
+<script>
+
+/* Экран ауыстыру */
+
+function nextScreen(number) {
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+    });
+
+    document.getElementById("screen" + number)
+        .classList.add("active");
+}
+
+
+/* Конверт */
+
+let envelopeOpened = false;
+
+function openEnvelope() {
+
+    if (envelopeOpened) return;
+
+    envelopeOpened = true;
+
+    document.getElementById("flap").style.transform =
+        "rotateX(180deg)";
+
+    document.getElementById("openText").innerHTML =
+        "Хат ашылды... ❤️";
+
+    setTimeout(() => {
+        nextScreen(3);
+    }, 1200);
+}
+
+
+/* 15 түрлі кешірім */
+
+const sorryMessages = [
+
+    "Кешіріңіз... ❤️",
+
+    "Мен шынымен өкінемін.",
+
+    "Сізді ренжіткенімді түсіндім.",
+
+    "Менің олай жасауым дұрыс болмады.",
+
+    "Сізге ауыр тиген болса, кешіріңіз.",
+
+    "Сіздің көңіліңіз мен үшін маңызды.",
+
+    "Мен өз қателігімді мойындаймын.",
+
+    "Сізді әдейі ренжіткен жоқпын.",
+
+    "Бәрін қайтадан дұрыс жасағым келеді.",
+
+    "Мен бұл жағдайдан сабақ алдым.",
+
+    "Сіздің ренжігеніңізді түсінемін.",
+
+    "Маған Сіздің күлгеніңіз маңызды.",
+
+    "Мен Сізді жоғалтқым келмейді.",
+
+    "Шын жүрегіммен кешірім сұраймын.",
+
+    "Маған тағы бір мүмкіндік беріңізші. ❤️"
+
+];
+
+let sorryIndex = 0;
+
+function nextSorry() {
+
+    if (sorryIndex < sorryMessages.length) {
+
+        document.getElementById("sorryText").style.opacity = "0";
+
+        setTimeout(() => {
+
+            document.getElementById("sorryText").innerText =
+                sorryMessages[sorryIndex];
+
+            document.getElementById("sorryText").style.opacity = "1";
+
+            sorryIndex++;
+
+            document.getElementById("progress").innerText =
+                sorryIndex + " / 15";
+
+        }, 250);
+
+    } else {
+
+        setTimeout(() => {
+            nextScreen(4);
+        }, 400);
+
+    }
+}
+
+
+/* Кешірдім */
+
+function forgive() {
+
+    createHearts();
+
+    setTimeout(() => {
+        nextScreen(5);
+    }, 1000);
+
+}
+
+
+/* Әлі ойланамын */
+
+function think() {
+
+    const button = document.getElementById("thinkBtn");
+
+    const messages = [
+        "Шынымен бе? 🥺",
+        "Тағы бір ойланып көріңізші...",
+        "Мен күтемін ❤️",
+        "Өтінемін... 🥺",
+        "Жарайды, асықпай ойланыңыз ❤️"
+    ];
+
+    const random =
+        messages[Math.floor(Math.random() * messages.length)];
+
+    button.innerText = random;
+
+    const maxX = window.innerWidth - 180;
+    const maxY = window.innerHeight - 100;
+
+    button.style.position = "fixed";
+
+    button.style.left =
+        Math.max(10, Math.random() * maxX) + "px";
+
+    button.style.top =
+        Math.max(10, Math.random() * maxY) + "px";
+}
+
+
+/* Жүректер */
+
+function createHearts() {
+
+    for (let i = 0; i < 35; i++) {
+
+        const heart = document.createElement("div");
+
+        heart.className = "floating-heart";
+
+        const symbols = ["❤️","💖","💕","💗","💓","✨"];
+
+        heart.innerText =
+            symbols[Math.floor(Math.random() * symbols.length)];
+
+        heart.style.left =
+            Math.random() * 100 + "vw";
+
+        heart.style.animationDuration =
+            (3 + Math.random() * 3) + "s";
+
+        heart.style.fontSize =
+            (20 + Math.random() * 30) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+}
+
+
+/* Қайта бастау */
+
+function restart() {
+
+    sorryIndex = 0;
+    envelopeOpened = false;
+
+    document.getElementById("progress").innerText = "0 / 15";
+
+    document.getElementById("sorryText").innerText =
+        "Менің айтарым көп...";
+
+    document.getElementById("flap").style.transform =
+        "rotateX(0deg)";
+
+    document.getElementById("openText").innerText =
+        "Бір рет басыңыз ❤️";
+
+    document.getElementById("thinkBtn").innerText =
+        "🥺 Әлі ойланамын";
+
+    document.getElementById("thinkBtn").style.position =
+        "static";
+
+    nextScreen(1);
+}
+
+
+/* Автоматты ұсақ жүректер */
+
+setInterval(() => {
+
+    if (Math.random() > 0.6) {
+
+        const heart = document.createElement("div");
+
+        heart.className = "floating-heart";
+        heart.innerText = "♡";
+
+        heart.style.left =
+            Math.random() * 100 + "vw";
+
+        heart.style.fontSize = "18px";
+
+        heart.style.animationDuration = "7s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 7000);
+    }
+
+}, 1500);
+
+</script>
+
+</body>
+</html>
+```
